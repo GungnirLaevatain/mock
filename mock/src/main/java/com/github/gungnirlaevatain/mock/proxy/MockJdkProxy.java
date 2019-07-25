@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author gungnirlaevatain
  * @version 2019 -06-25 16:31:15
- * @since JDK 1.8
+ * @since 1.0
  */
 public class MockJdkProxy implements InvocationHandler {
 

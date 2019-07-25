@@ -1,12 +1,14 @@
 package com.github.gungnirlaevatain.mock.sample.proxy;
 
+import com.github.gungnirlaevatain.mock.sample.TestResult;
+
 /**
  * The class Proxy test service.
  * proxy模式测试接口
  *
  * @author GungnirLaevatain
  * @version 2019 -07-22 23:04:23
- * @since JDK 11
+ * @since 1.0
  */
 public interface ProxyTestService {
 
@@ -17,7 +19,7 @@ public interface ProxyTestService {
      * @return the proxy test result
      * @author GungnirLaevatain
      */
-    ProxyTestResult testReturnObjectByDefault();
+    TestResult testReturnObjectByDefault();
 
     /**
      * Test return object by param.
@@ -29,7 +31,7 @@ public interface ProxyTestService {
      * @return the proxy test result
      * @author GungnirLaevatain
      */
-    ProxyTestResult testReturnObjectByParam(Integer a, String b, ProxyTestResult result);
+    TestResult testReturnObjectByParam(Integer a, String b, TestResult result);
 
     /**
      * Test void.
@@ -76,5 +78,5 @@ public interface ProxyTestService {
      * @return the int
      * @author GungnirLaevatain
      */
-    int testReturnInt(String a, ProxyTestResult result);
+    int testReturnInt(String a, TestResult result);
 }

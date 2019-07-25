@@ -34,7 +34,7 @@ import java.util.List;
  *
  * @author gungnirlaevatain
  * @version 2019 -06-24 16:19:00
- * @since JDK 1.8
+ * @since 1.0
  */
 @Slf4j
 @Configuration

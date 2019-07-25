@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * @author GungnirLaevatain
  * @version 2019 -07-22 23:04:04
- * @since JDK 11
+ * @since 1.0
  */
 @SpringBootApplication
 public class MockSampleApplication {

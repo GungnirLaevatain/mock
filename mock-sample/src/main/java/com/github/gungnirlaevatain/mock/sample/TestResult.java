@@ -1,4 +1,4 @@
-package com.github.gungnirlaevatain.mock.sample.proxy;
+package com.github.gungnirlaevatain.mock.sample;
 
 import lombok.Data;
 
@@ -10,13 +10,13 @@ import java.util.Date;
  *
  * @author GungnirLaevatain
  * @version 2019 -07-22 23:08:07
- * @since JDK 11
+ * @since 1.0
  */
 @Data
-public class ProxyTestResult {
+public class TestResult {
 
     private String a;
     private Integer b;
     private Date c;
-    private ProxyTestResult d;
+    private TestResult d;
 }

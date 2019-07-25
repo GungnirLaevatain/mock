@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @author GungnirLaevatain
  * @version 2019 -07-14 20:47:06
- * @since JDK 1.8
+ * @since 1.0
  */
 @Data
 public class MockEntity {
@@ -62,7 +62,7 @@ public class MockEntity {
      *
      * @author GungnirLaevatain
      * @version 2019 -07-14 20:49:01
-     * @since JDK 11
+     * @since 1.0
      */
     public enum MockType {
         /**

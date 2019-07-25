@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author gungnirlaevatain
  * @version 2019 -06-25 10:58:54
- * @since JDK 1.8
+ * @since 1.0
  */
 @Slf4j
 public class MockCglibProxy implements MethodInterceptor {

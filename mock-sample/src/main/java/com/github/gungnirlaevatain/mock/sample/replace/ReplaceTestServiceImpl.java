@@ -1,24 +1,30 @@
-package com.github.gungnirlaevatain.mock.sample.proxy;
+package com.github.gungnirlaevatain.mock.sample.replace;
 
 import com.github.gungnirlaevatain.mock.sample.TestResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * The class Proxy test service.
+ * The class Replace test service.
+ * 当某些bean无法在本地生成时，利用bean replace模式进行mock
  *
  * @author GungnirLaevatain
- * @version 2019 -07-22 23:51:00
+ * @version 2019 -07-25 23:19:42
  * @since 1.0
  */
 @Service
 @Slf4j
-public class ProxyTestServiceImpl implements ProxyTestService {
+public class ReplaceTestServiceImpl implements ReplaceTestService {
+
+    public ReplaceTestServiceImpl() {
+        throw new RuntimeException();
+    }
+
     /**
      * Test return object by default.
      * 测试返回默认值
      *
-     * @return the proxy test result
+     * @return the test result
      * @author GungnirLaevatain
      */
     @Override
@@ -33,7 +39,7 @@ public class ProxyTestServiceImpl implements ProxyTestService {
      * @param a      the a
      * @param b      the b
      * @param result the result
-     * @return the proxy test result
+     * @return the test result
      * @author GungnirLaevatain
      */
     @Override

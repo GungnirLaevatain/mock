@@ -1,30 +1,24 @@
-package com.github.gungnirlaevatain.mock.sample.proxy;
+package com.github.gungnirlaevatain.mock.sample.replace;
 
 import com.github.gungnirlaevatain.mock.sample.TestResult;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 /**
- * The class Proxy test service.
+ * The class Replace test service.
  *
  * @author GungnirLaevatain
- * @version 2019 -07-22 23:51:00
+ * @version 2019 -07-25 23:16:54
  * @since 1.0
  */
-@Service
-@Slf4j
-public class ProxyTestServiceImpl implements ProxyTestService {
+public interface ReplaceTestService {
+
     /**
      * Test return object by default.
      * 测试返回默认值
      *
-     * @return the proxy test result
+     * @return the test result
      * @author GungnirLaevatain
      */
-    @Override
-    public TestResult testReturnObjectByDefault() {
-        return null;
-    }
+    TestResult testReturnObjectByDefault();
 
     /**
      * Test return object by param.
@@ -33,13 +27,10 @@ public class ProxyTestServiceImpl implements ProxyTestService {
      * @param a      the a
      * @param b      the b
      * @param result the result
-     * @return the proxy test result
+     * @return the test result
      * @author GungnirLaevatain
      */
-    @Override
-    public TestResult testReturnObjectByParam(Integer a, String b, TestResult result) {
-        return null;
-    }
+    TestResult testReturnObjectByParam(Integer a, String b, TestResult result);
 
     /**
      * Test void.
@@ -47,10 +38,7 @@ public class ProxyTestServiceImpl implements ProxyTestService {
      *
      * @author GungnirLaevatain
      */
-    @Override
-    public void testVoid() {
-
-    }
+    void testVoid();
 
     /**
      * Test return string.
@@ -59,10 +47,7 @@ public class ProxyTestServiceImpl implements ProxyTestService {
      * @return the string
      * @author GungnirLaevatain
      */
-    @Override
-    public String testReturnString() {
-        return null;
-    }
+    String testReturnString();
 
     /**
      * Test return int.
@@ -71,10 +56,7 @@ public class ProxyTestServiceImpl implements ProxyTestService {
      * @return the int
      * @author GungnirLaevatain
      */
-    @Override
-    public int testReturnInt() {
-        return 0;
-    }
+    int testReturnInt();
 
     /**
      * Test return int.
@@ -84,10 +66,7 @@ public class ProxyTestServiceImpl implements ProxyTestService {
      * @return the int
      * @author GungnirLaevatain
      */
-    @Override
-    public int testReturnInt(String a) {
-        return 0;
-    }
+    int testReturnInt(String a);
 
     /**
      * Test return int.
@@ -98,8 +77,5 @@ public class ProxyTestServiceImpl implements ProxyTestService {
      * @return the int
      * @author GungnirLaevatain
      */
-    @Override
-    public int testReturnInt(String a, TestResult result) {
-        return 0;
-    }
+    int testReturnInt(String a, TestResult result);
 }

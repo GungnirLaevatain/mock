@@ -14,7 +14,7 @@ import org.springframework.core.PriorityOrdered;
  *
  * @author GungnirLaevatain
  * @version 2019 -07-14 22:18:00
- * @since JDK 1.8
+ * @since 1.0
  */
 @Slf4j
 public class MockBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor, PriorityOrdered {

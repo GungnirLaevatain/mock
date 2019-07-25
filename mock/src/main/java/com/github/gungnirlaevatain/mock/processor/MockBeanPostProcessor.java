@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author gungnirlaevatain
  * @version 2019 -06-25 16:37:39
- * @since JDK 1.8
+ * @since 1.0
  */
 @Slf4j
 public class MockBeanPostProcessor implements InstantiationAwareBeanPostProcessor, PriorityOrdered {

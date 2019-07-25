@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author gungnirlaevatain
  * @version 2019 -06-24 15:48:27
- * @since JDK 1.8
+ * @since 1.0
  */
 public class ClassUtil {
 

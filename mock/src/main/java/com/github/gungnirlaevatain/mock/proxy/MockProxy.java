@@ -18,7 +18,7 @@ import java.util.Map;
  *
  * @author gungnirlaevatain
  * @version 2019 -06-25 13:22:36
- * @since JDK 1.8
+ * @since 1.0
  */
 @Slf4j
 public class MockProxy {

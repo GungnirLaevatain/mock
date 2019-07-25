@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author gungnirlaevatain
  * @version 2019 -06-24 16:22:44
- * @since JDK 1.8
+ * @since 1.0
  */
 @Data
 public class MockProperty {
