@@ -1,0 +1,34 @@
+entities:
+  - type: CLASS
+    className: com.github.gungnirlaevatain.mock.sample.cls.ClassTestUtil
+    methods:
+      - method: testStaticObjectByDefault
+        defaultResult: '{"a":"CCC","b":3,"c":"2019-07-23 00:32:00","d":{"a":"BBB"}}'
+      - method: testReturnObjectByDefault
+        defaultResult: '{"a":"AAA","b":3,"c":"2019-07-23 00:32:00","d":{"a":"BBB"}}'
+      - method: testReturnObjectByParam
+        results:
+          - path: $.0
+            expected: 1
+            result: '{"a":"AAA"}'
+          - path: $.1
+            expected: 'B'
+            result: '{"a":"BBB"}'
+          - path: $.2.a
+            expected: 'CCC'
+            result: '{"a":"CCC"}'
+      - method: testVoid
+        defaultResult: '{"a":"AAA","b":3,"c":"2019-07-23 00:32:00","d":{"a":"BBB"}}'
+      - method: testReturnString
+        defaultResult: 'true'
+      - method: testReturnInt
+        defaultResult: '1'
+      - method: testReturnInt
+        paramClass:
+          - java.lang.String
+        defaultResult: 2
+      - method: testReturnInt
+        paramClass:
+          - java.lang.String
+          - com.github.gungnirlaevatain.mock.sample.TestResult
+        defaultResult: "3"
