@@ -58,7 +58,7 @@ public class MockProxy {
         if (mock == null) {
             // 如果不是则调用原来的方法
             if (methodProxy != null) {
-                return methodProxy.invoke(proxy, args);
+                return methodProxy.invokeSuper(proxy, args);
             }
             return method.invoke(proxy, args);
         }
