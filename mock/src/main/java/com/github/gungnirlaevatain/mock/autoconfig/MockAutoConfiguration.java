@@ -124,10 +124,10 @@ public class MockAutoConfiguration {
                 LocalVariableAttribute attr =
                         (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
                 String body = mockBody(attr, returnType.getName(), mockMethod);
-                ctMethod.setBody(body);
-
+                ctMethod.insertBefore(body);
                 log.info("class [{}] has been mocked by mock class type", ctClass.getName());
             }
+            pool.toClass(ctClass);
         } catch (NotFoundException e) {
             log.error("can not found class for class name {} from context", entity.getClassName(), e);
         } catch (CannotCompileException e) {
@@ -148,7 +148,8 @@ public class MockAutoConfiguration {
     private static String mockBody(LocalVariableAttribute attr, String returnType, MockMethod mockMethod) {
         if (attr == null) {
             return "return com.github.gungnirlaevatain.mock.util.MockUtil.createResult(\"" +
-                    mockMethod.getDefaultResult() + "\", " + returnType + ".class);";
+                    mockMethod.getDefaultResult().replace("\"", "\\\"") +
+                    "\", " + returnType + ".class);";
         }
         String methodJson = JSON.toJSONString(mockMethod);
         int length = attr.tableLength();

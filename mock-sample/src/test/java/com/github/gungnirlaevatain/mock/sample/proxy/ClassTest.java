@@ -25,7 +25,7 @@ public class ClassTest {
     @Test
     public void testTestStaticObjectByDefault() throws Exception {
         TestResult testResult = ClassTestUtil.testStaticObjectByDefault();
-        Assert.assertEquals("AAA", testResult.getA());
+        Assert.assertEquals("CCC", testResult.getA());
         Assert.assertNotNull(testResult.getC());
         Assert.assertNotNull(testResult.getD());
         Assert.assertEquals(0, 3 - testResult.getB());
