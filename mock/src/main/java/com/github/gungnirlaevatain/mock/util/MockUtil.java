@@ -60,7 +60,7 @@ public class MockUtil {
      * @return the object
      * @author gungnirlaevatain
      */
-    public static Object createResult(String result, Class<?> returnType) {
+    public static <T> T createResult(String result, Class<T> returnType) {
         if (result == null || returnType == Void.class) {
             return null;
         }
@@ -69,7 +69,7 @@ public class MockUtil {
         } else if (Date.class == returnType) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {
-                return format.parse(result);
+                return (T) format.parse(result);
             } catch (ParseException e) {
                 log.error("can not parse source to date for {}", result, e);
                 return null;

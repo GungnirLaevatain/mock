@@ -10,6 +10,7 @@ import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
+import javassist.Modifier;
 import javassist.NotFoundException;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
@@ -21,7 +22,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
@@ -107,8 +107,9 @@ public class MockAutoConfiguration {
             for (MockMethod mockMethod : methods) {
                 List<String> paramClasses = mockMethod.getParamClass();
                 CtMethod ctMethod;
-                if (CollectionUtils.isEmpty(paramClasses)) {
-                    ctMethod = ctClass.getDeclaredMethod(mockMethod.getMethod());
+                CtMethod[] ctMethods = ctClass.getDeclaredMethods(mockMethod.getMethod());
+                if (ctMethods.length == 1) {
+                    ctMethod = ctMethods[0];
                 } else {
                     CtClass[] ctClasses = new CtClass[paramClasses.size()];
                     for (int i = 0; i < paramClasses.size(); i++) {
@@ -116,18 +117,12 @@ public class MockAutoConfiguration {
                         ctClasses[i] = param;
                     }
                     ctMethod = ctClass.getDeclaredMethod(mockMethod.getMethod(), ctClasses);
-
                 }
-                MethodInfo methodInfo = ctMethod.getMethodInfo();
-                CtClass returnType = ctMethod.getReturnType();
-                CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
-                LocalVariableAttribute attr =
-                        (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
-                String body = mockBody(attr, returnType.getName(), mockMethod);
+                String body = mockBody(ctMethod, mockMethod);
                 ctMethod.insertBefore(body);
-                log.info("class [{}] has been mocked by mock class type", ctClass.getName());
             }
             pool.toClass(ctClass);
+            log.info("class [{}] has been mocked by mock class type", ctClass.getName());
         } catch (NotFoundException e) {
             log.error("can not found class for class name {} from context", entity.getClassName(), e);
         } catch (CannotCompileException e) {
@@ -139,33 +134,47 @@ public class MockAutoConfiguration {
      * Mock body.
      * 修改方法体以完成mock
      *
-     * @param attr       the attr
-     * @param returnType the return type
+     * @param ctMethod   the ctMethod
      * @param mockMethod the mock method
      * @return the string
      * @author gungnirlaevatain
      */
-    private static String mockBody(LocalVariableAttribute attr, String returnType, MockMethod mockMethod) {
-        if (attr == null) {
-            return "return com.github.gungnirlaevatain.mock.util.MockUtil.createResult(\"" +
+    private static String mockBody(CtMethod ctMethod, MockMethod mockMethod) throws NotFoundException {
+        MethodInfo methodInfo = ctMethod.getMethodInfo();
+        CtClass returnType = ctMethod.getReturnType();
+        if ("void".equalsIgnoreCase(returnType.getName())) {
+            return "return;";
+        }
+        CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
+        LocalVariableAttribute attr =
+                (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
+        if (attr == null || attr.tableLength() <= 1) {
+            return "return (" + returnType.getName() + ")com.github.gungnirlaevatain.mock.util.MockUtil.createResult(\"" +
                     mockMethod.getDefaultResult().replace("\"", "\\\"") +
-                    "\", " + returnType + ".class);";
+                    "\", " + returnType.getName() + ".class);";
         }
         String methodJson = JSON.toJSONString(mockMethod);
         int length = attr.tableLength();
         StringBuilder sb = new StringBuilder("Object[] mockArgs=new Object[]{");
-        for (int i = 0; i < length - 1; i++) {
+        int pos = Modifier.isStatic(ctMethod.getModifiers()) ? 0 : 1;
+        int paramSize = ctMethod.getParameterTypes().length + pos;
+        for (int i = pos; i < length && i < paramSize; i++) {
             sb.append(attr.variableName(i)).append(",");
         }
-        sb.append(attr.variableName(length)).append("};")
+        if (length > pos && paramSize > pos) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        sb.append("};")
                 .append("com.github.gungnirlaevatain.mock.entity.MockMethod mockMethod=com.alibaba.fastjson.JSON.parseObject(\"")
-                .append(methodJson)
+                .append(methodJson.replace("\"", "\\\"").replace("\\\\", "\\"))
                 .append("\",com.github.gungnirlaevatain.mock.entity.MockMethod.class);");
 
         sb.append("String mockResult = com.github.gungnirlaevatain.mock.util.MockUtil.findResultFromMockMethod(mockMethod, mockArgs);");
 
-        sb.append("return com.github.gungnirlaevatain.mock.util.MockUtil.createResult(result,")
-                .append(returnType)
+        sb.append("return (")
+                .append(returnType.getName())
+                .append(")com.github.gungnirlaevatain.mock.util.MockUtil.createResult(mockResult,")
+                .append(returnType.getName())
                 .append(".class);");
         return sb.toString();
     }

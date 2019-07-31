@@ -20,7 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = MockSampleApplication.class)
 public class ClassTest {
 
-    private ClassTestUtil classTestUtil = new ClassTestUtil();
 
     @Test
     public void testTestStaticObjectByDefault() throws Exception {
@@ -37,6 +36,7 @@ public class ClassTest {
      */
     @Test
     public void testTestReturnObjectByDefault() throws Exception {
+        ClassTestUtil classTestUtil = new ClassTestUtil();
         TestResult testResult = classTestUtil.testReturnObjectByDefault();
         Assert.assertEquals("AAA", testResult.getA());
         Assert.assertNotNull(testResult.getC());
@@ -50,6 +50,7 @@ public class ClassTest {
      */
     @Test
     public void testTestReturnObjectByParam() throws Exception {
+        ClassTestUtil classTestUtil = new ClassTestUtil();
         TestResult testResult = new TestResult();
         testResult.setA("CCC");
         TestResult result = classTestUtil.testReturnObjectByParam(1, "a", null);
@@ -65,6 +66,7 @@ public class ClassTest {
      */
     @Test
     public void testTestVoid() throws Exception {
+        ClassTestUtil classTestUtil = new ClassTestUtil();
         classTestUtil.testVoid();
     }
 
@@ -73,6 +75,7 @@ public class ClassTest {
      */
     @Test
     public void testTestReturnString() throws Exception {
+        ClassTestUtil classTestUtil = new ClassTestUtil();
         String result = classTestUtil.testReturnString();
         Assert.assertEquals("true", result);
     }
@@ -82,6 +85,7 @@ public class ClassTest {
      */
     @Test
     public void testTestReturnInt() throws Exception {
+        ClassTestUtil classTestUtil = new ClassTestUtil();
         int result = classTestUtil.testReturnInt();
         Assert.assertEquals(1, result);
     }
@@ -91,6 +95,7 @@ public class ClassTest {
      */
     @Test
     public void testTestReturnIntA() throws Exception {
+        ClassTestUtil classTestUtil = new ClassTestUtil();
         int result = classTestUtil.testReturnInt("a");
         Assert.assertEquals(2, result);
     }
@@ -100,6 +105,7 @@ public class ClassTest {
      */
     @Test
     public void testTestReturnIntForAResult() throws Exception {
+        ClassTestUtil classTestUtil = new ClassTestUtil();
         int result = classTestUtil.testReturnInt("c", null);
         Assert.assertEquals(3, result);
     }
