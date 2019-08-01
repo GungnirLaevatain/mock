@@ -46,10 +46,7 @@ public class ClassTestUtil {
      * @author GungnirLaevatain
      */
     public TestResult testReturnObjectByParam(Integer a, String b, TestResult result) {
-        Object[] mockArgs = new Object[]{a, b, result};
-        com.github.gungnirlaevatain.mock.entity.MockMethod mockMethod = com.alibaba.fastjson.JSON.parseObject("{\"method\":\"testReturnObjectByParam\",\"paramClass\":[],\"results\":[{\"expected\":\"1\",\"path\":\"$.0\",\"result\":\"{\"a\":\"AAA\"}\"},{\"expected\":\"B\",\"path\":\"$.1\",\"result\":\"{\"a\":\"BBB\"}\"},{\"expected\":\"CCC\",\"path\":\"$.2.a\",\"result\":\"{\"a\":\"CCC\"}\"}]}", com.github.gungnirlaevatain.mock.entity.MockMethod.class);
-        String mockResult = com.github.gungnirlaevatain.mock.util.MockUtil.findResultFromMockMethod(mockMethod, mockArgs);
-        return com.github.gungnirlaevatain.mock.util.MockUtil.createResult(mockResult, com.github.gungnirlaevatain.mock.sample.TestResult.class);
+        return null;
     }
 
     /**

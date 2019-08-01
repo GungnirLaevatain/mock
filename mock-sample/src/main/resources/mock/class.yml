@@ -17,8 +17,8 @@ entities:
           - path: $.2.a
             expected: 'CCC'
             result: '{"a":"CCC"}'
-      - method: testVoid
-        defaultResult: '{"a":"AAA","b":3,"c":"2019-07-23 00:32:00","d":{"a":"BBB"}}'
+      #      - method: testVoid
+      #        defaultResult: '{"a":"AAA","b":3,"c":"2019-07-23 00:32:00","d":{"a":"BBB"}}'
       - method: testReturnString
         defaultResult: 'true'
       - method: testReturnInt

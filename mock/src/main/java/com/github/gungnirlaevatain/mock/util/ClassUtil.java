@@ -1,5 +1,9 @@
 package com.github.gungnirlaevatain.mock.util;
 
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.NotFoundException;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -207,6 +211,55 @@ public class ClassUtil {
         } else {
             return null;
         }
+    }
+
+    public static CtClass baseTypeToPackagingType(CtClass source) {
+        if (!source.isPrimitive() || source.isArray()) {
+            return source;
+        }
+        try {
+            ClassPool pool = ClassPool.getDefault();
+            if (source == CtClass.booleanType) {
+                return pool.get(Boolean.class.getName());
+            } else if (source == CtClass.byteType) {
+                return pool.get(Byte.class.getName());
+            } else if (source == CtClass.charType) {
+                return pool.get(Character.class.getName());
+            } else if (source == CtClass.doubleType) {
+                return pool.get(Double.class.getName());
+            } else if (source == CtClass.floatType) {
+                return pool.get(Float.class.getName());
+            } else if (source == CtClass.longType) {
+                return pool.get(Long.class.getName());
+            } else if (source == CtClass.intType) {
+                return pool.get(Integer.class.getName());
+            } else if (source == CtClass.shortType) {
+                return pool.get(Short.class.getName());
+            }
+        } catch (NotFoundException ignored) {
+        }
+        return source;
+    }
+
+    public static String unboxingCode(CtClass source) {
+        if (source == CtClass.booleanType) {
+            return ".booleanValue()";
+        } else if (source == CtClass.byteType) {
+            return ".byteValue()";
+        } else if (source == CtClass.charType) {
+            return ".charValue()";
+        } else if (source == CtClass.doubleType) {
+            return ".doubleValue()";
+        } else if (source == CtClass.floatType) {
+            return ".floatValue()";
+        } else if (source == CtClass.longType) {
+            return ".longValue()";
+        } else if (source == CtClass.intType) {
+            return ".intValue()";
+        } else if (source == CtClass.shortType) {
+            return ".shortValue()";
+        }
+        return "";
     }
 
 }
