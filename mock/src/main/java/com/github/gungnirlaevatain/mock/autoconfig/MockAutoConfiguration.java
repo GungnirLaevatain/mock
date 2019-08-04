@@ -6,16 +6,11 @@ import com.github.gungnirlaevatain.mock.entity.MockMethod;
 import com.github.gungnirlaevatain.mock.processor.MockBeanDefinitionRegistryPostProcessor;
 import com.github.gungnirlaevatain.mock.processor.MockBeanPostProcessor;
 import com.github.gungnirlaevatain.mock.property.MockProperty;
-import com.github.gungnirlaevatain.mock.util.ClassUtil;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
-import javassist.Modifier;
 import javassist.NotFoundException;
-import javassist.bytecode.CodeAttribute;
-import javassist.bytecode.LocalVariableAttribute;
-import javassist.bytecode.MethodInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -141,55 +136,26 @@ public class MockAutoConfiguration {
      * @author gungnirlaevatain
      */
     private static String mockBody(CtMethod ctMethod, MockMethod mockMethod) throws NotFoundException {
-        MethodInfo methodInfo = ctMethod.getMethodInfo();
         CtClass returnType = ctMethod.getReturnType();
         if (returnType == CtClass.voidType) {
             return "return;";
         }
-        CtClass sourceReturnType = returnType;
-        returnType = ClassUtil.baseTypeToPackagingType(returnType);
-        CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
-        LocalVariableAttribute attr =
-                (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
         StringBuilder sb = new StringBuilder();
-        if (attr != null && attr.tableLength() > 1) {
-            int length = attr.tableLength();
-            sb.append("Object[] mockArgs=new Object[]{");
-            int pos = Modifier.isStatic(ctMethod.getModifiers()) ? 0 : 1;
-            int paramSize = ctMethod.getParameterTypes().length + pos;
-            for (int i = pos; i < length && i < paramSize; i++) {
-                sb.append(attr.variableName(i)).append(",");
-            }
-            if (length > pos && paramSize > pos) {
-                sb.deleteCharAt(sb.length() - 1);
-            }
-            sb.append("};");
-        } else {
-            sb.append("Object[] mockArgs=new Object[0];");
-        }
-        String methodJson = JSON.toJSONString(mockMethod);
-        sb.append("com.github.gungnirlaevatain.mock.entity.MockMethod mockMethod=(com.github.gungnirlaevatain.mock.entity.MockMethod)com.alibaba.fastjson.JSON.parseObject(\"")
-                .append(methodJson.replace("\"", "\\\"").replace("\\\\", "\\"))
-                .append("\",com.github.gungnirlaevatain.mock.entity.MockMethod.class);");
+        String methodJson = JSON.toJSONString(JSON.toJSONString(mockMethod));
+        sb.append("com.github.gungnirlaevatain.mock.entity.MockMethod mockMethod=(com.github.gungnirlaevatain.mock.entity.MockMethod)com.alibaba.fastjson.JSON.parseObject(")
+                .append(methodJson)
+                .append(",com.github.gungnirlaevatain.mock.entity.MockMethod.class);");
 
-        sb.append("String mockResult = com.github.gungnirlaevatain.mock.util.MockUtil.findResultFromMockMethod(mockMethod, mockArgs);");
+        sb.append("String mockResult = com.github.gungnirlaevatain.mock.util.MockUtil.findResultFromMockMethod(mockMethod, $args);");
 
-        sb.append("return ");
-        if (sourceReturnType != returnType) {
-            sb.append("(");
-        }
-        sb.append("(")
-                .append(returnType.getName())
+        sb.append("return ")
+                .append("(")
+                .append("$r")
                 .append(")")
                 .append("com.github.gungnirlaevatain.mock.util.MockUtil.createResult(mockResult,")
                 .append(returnType.getName())
-                .append(".class)");
-
-        if (sourceReturnType != returnType) {
-            sb.append(")")
-                    .append(ClassUtil.unboxingCode(sourceReturnType));
-        }
-        sb.append(";");
+                .append(".class)")
+                .append(";");
         return sb.toString();
     }
 }
