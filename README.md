@@ -2,6 +2,15 @@
 无侵入性的，多模式的，基于配置的，对原始代码进行MOCK处理的工具  
 ## Getting started  
 ### Maven依赖  
+```xml
+
+<dependency>
+  <groupId>com.github.gungnirlaevatain</groupId>
+  <artifactId>mock</artifactId>
+  <version>1.0.0</version>
+</dependency>
+
+```
 ### 新建配置文件  
 于classpath下新建mock文件夹,并于此文件夹中新建yml格式的文本文件  
 ### 添加配置项
