@@ -8,6 +8,7 @@ import com.github.gungnirlaevatain.mock.processor.MockBeanPostProcessor;
 import com.github.gungnirlaevatain.mock.property.MockProperty;
 import javassist.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,7 @@ import java.util.List;
  */
 @Slf4j
 @Configuration
+@ConditionalOnProperty(prefix = "dtportal.commons.mock", name = "enable", havingValue = "true", matchIfMissing = true)
 @ComponentScan(basePackages = {"com.github.gungnirlaevatain.mock"})
 public class MockAutoConfiguration {
 
