@@ -6,11 +6,7 @@ import com.github.gungnirlaevatain.mock.entity.MockMethod;
 import com.github.gungnirlaevatain.mock.processor.MockBeanDefinitionRegistryPostProcessor;
 import com.github.gungnirlaevatain.mock.processor.MockBeanPostProcessor;
 import com.github.gungnirlaevatain.mock.property.MockProperty;
-import javassist.CannotCompileException;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
-import javassist.NotFoundException;
+import javassist.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -71,6 +67,7 @@ public class MockAutoConfiguration {
      */
     private static void refreshMockEntities(MockProperty mockProperty) {
         ClassPool pool = ClassPool.getDefault();
+        pool.appendClassPath(new LoaderClassPath(MockAutoConfiguration.class.getClassLoader()));
         List<MockEntity> mockEntities = mockProperty.getEntities();
         for (int i = 0; i < mockEntities.size(); i++) {
             MockEntity entity = mockEntities.get(i);
