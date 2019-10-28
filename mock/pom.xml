@@ -8,6 +8,18 @@
     <artifactId>mock</artifactId>
     <version>1.0.0</version>
 
+    <name>mock</name>
+    <description>Based on configuration, mock the specified class method</description>
+    <url>https://github.com/GungnirLaevatain/mock</url>
+
+    <developers>
+        <developer>
+            <name>GungnirLaevatain</name>
+            <email>gungnirlaevatain@outlook.com</email>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -17,6 +29,7 @@
     </licenses>
 
     <scm>
+        <tag>${project.version}</tag>
         <connection>scm:git:git@github.com:GungnirLaevatain/mock.git</connection>
         <developerConnection>scm:git:git@github.com:GungnirLaevatain/mock.git</developerConnection>
         <url>git@github.com:GungnirLaevatain/mock.git</url>
@@ -100,6 +113,40 @@
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <configuration>
+                    <passphrase>mock123456</passphrase>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
