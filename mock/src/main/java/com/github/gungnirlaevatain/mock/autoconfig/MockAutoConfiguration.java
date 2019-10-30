@@ -5,13 +5,18 @@ import com.github.gungnirlaevatain.mock.entity.MockEntity;
 import com.github.gungnirlaevatain.mock.entity.MockMethod;
 import com.github.gungnirlaevatain.mock.processor.MockBeanDefinitionRegistryPostProcessor;
 import com.github.gungnirlaevatain.mock.processor.MockBeanPostProcessor;
+import com.github.gungnirlaevatain.mock.property.EnvProperty;
 import com.github.gungnirlaevatain.mock.property.MockProperty;
 import javassist.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.bind.BindResult;
+import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -31,20 +36,30 @@ import java.util.List;
  */
 @Slf4j
 @Configuration
-@ConditionalOnProperty(prefix = "dtportal.commons.mock", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = EnvProperty.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 @ComponentScan(basePackages = {"com.github.gungnirlaevatain.mock"})
 public class MockAutoConfiguration {
 
     @Bean
-    public static MockBeanDefinitionRegistryPostProcessor mockBeanDefinitionRegistryPostProcessor() throws IOException {
+    public static EnvProperty envProperty(@Autowired Environment environment) {
+        Binder binder = Binder.get(environment);
+        BindResult<EnvProperty> result = binder.bind(EnvProperty.PREFIX, EnvProperty.class);
+        if (result.isBound()) {
+            return result.get();
+        }
+        log.warn("use default mock environment");
+        return new EnvProperty();
+    }
 
-        MockBeanPostProcessor mockBeanPostProcessor = new MockBeanPostProcessor(readProperty());
+    @Bean
+    public static MockBeanDefinitionRegistryPostProcessor mockBeanDefinitionRegistryPostProcessor(@Autowired EnvProperty envProperty) throws IOException {
+        MockBeanPostProcessor mockBeanPostProcessor = new MockBeanPostProcessor(readProperty(envProperty));
         return new MockBeanDefinitionRegistryPostProcessor(mockBeanPostProcessor);
     }
 
-    private static MockProperty readProperty() throws IOException {
+    private static MockProperty readProperty(EnvProperty envProperty) throws IOException {
         ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resourcePatternResolver.getResources(MockProperty.RESOURCE);
+        Resource[] resources = resourcePatternResolver.getResources(envProperty.getConfigLocation());
         MockProperty mockProperty = new MockProperty();
         Yaml yaml = new Yaml();
         for (Resource resource : resources) {

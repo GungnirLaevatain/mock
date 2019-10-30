@@ -19,9 +19,6 @@ import java.util.Map;
 @Data
 public class MockProperty {
 
-    public static final String PREFIX = "mock";
-    public static final String RESOURCE = "classpath:mock/*.yml";
-
     private List<MockEntity> entities = new ArrayList<>();
 
     public void merge(MockProperty mockProperty) {
