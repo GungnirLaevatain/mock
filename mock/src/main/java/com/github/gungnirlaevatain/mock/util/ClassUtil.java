@@ -28,7 +28,7 @@ public class ClassUtil {
      * @return the boolean
      * @author gungnirlaevatain
      */
-    public static boolean isBaseClass(Class cls) {
+    public static boolean isBaseClass(Class<?> cls) {
         return isPrimitiveClass(cls) || isPackagingClass(cls);
     }
 
@@ -69,7 +69,7 @@ public class ClassUtil {
     public static boolean isPackagingClass(Class<?> cls) {
         if (cls != null && !cls.isArray() && !cls.isEnum()) {
             try {
-                return ((Class) cls.getField("TYPE").get(null)).isPrimitive();
+                return ((Class<?>) cls.getField("TYPE").get(null)).isPrimitive();
             } catch (IllegalAccessException | NoSuchFieldException ignored) {
             }
         }

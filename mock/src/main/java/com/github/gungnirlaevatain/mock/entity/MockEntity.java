@@ -26,7 +26,7 @@ public class MockEntity {
      * 类名称
      */
     private String className;
-    private transient Class mockClass;
+    private transient Class<?> mockClass;
     /**
      * The Methods.
      * 类方法配置
