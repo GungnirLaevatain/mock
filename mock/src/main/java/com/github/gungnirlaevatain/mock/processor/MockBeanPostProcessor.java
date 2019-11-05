@@ -58,7 +58,6 @@ public class MockBeanPostProcessor implements InstantiationAwareBeanPostProcesso
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
         List<MockEntity> classes = new LinkedList<>();
@@ -96,7 +95,6 @@ public class MockBeanPostProcessor implements InstantiationAwareBeanPostProcesso
         return mock;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         List<MockEntity> classes = new LinkedList<>();

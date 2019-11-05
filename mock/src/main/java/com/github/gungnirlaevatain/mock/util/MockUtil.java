@@ -60,6 +60,7 @@ public class MockUtil {
      * @return the object
      * @author gungnirlaevatain
      */
+    @SuppressWarnings("unchecked")
     public static <T> T createResult(String result, Class<T> returnType) {
         if (result == null || returnType == Void.class) {
             return null;
