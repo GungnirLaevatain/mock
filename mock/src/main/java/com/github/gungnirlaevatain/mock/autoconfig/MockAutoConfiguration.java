@@ -7,7 +7,12 @@ import com.github.gungnirlaevatain.mock.processor.MockBeanDefinitionRegistryPost
 import com.github.gungnirlaevatain.mock.processor.MockBeanPostProcessor;
 import com.github.gungnirlaevatain.mock.property.EnvProperty;
 import com.github.gungnirlaevatain.mock.property.MockProperty;
-import javassist.*;
+import javassist.CannotCompileException;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
+import javassist.LoaderClassPath;
+import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -89,7 +94,7 @@ public class MockAutoConfiguration {
         for (int i = 0; i < mockEntities.size(); i++) {
             MockEntity entity = mockEntities.get(i);
             if (StringUtils.isEmpty(entity.getClassName())) {
-                log.error("mock class is required for [{}] entity", i);
+                log.error("class name is required for [{}] entity", i);
                 // 移除不合法的配置项
                 mockEntities.remove(i);
                 i--;
