@@ -81,7 +81,7 @@ public class MockBeanPostProcessor implements InstantiationAwareBeanPostProcesso
             Enhancer enhancer = new Enhancer();
             enhancer.setSuperclass(beanClass);
             enhancer.setCallbackType(MockCglibProxy.class);
-            Class proxyClass = enhancer.createClass();
+            Class<?> proxyClass = enhancer.createClass();
             Enhancer.registerStaticCallbacks(proxyClass, new Callback[]{new MockCglibProxy(classes)});
             try {
                 // 防止因构造器异常导致无法产生对应对象
