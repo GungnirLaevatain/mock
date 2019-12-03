@@ -4,6 +4,7 @@ import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@Target(ElementType.METHOD)
+@Documented
+@Target(ElementType.TYPE)
 public @interface MockHandler {
 }

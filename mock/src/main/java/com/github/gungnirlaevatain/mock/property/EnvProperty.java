@@ -3,6 +3,9 @@ package com.github.gungnirlaevatain.mock.property;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * The class Env property.
  *
@@ -18,4 +21,5 @@ public class EnvProperty {
 
     private Boolean enable;
     private String configLocation = DEFAULT_LOCATION;
+    private List<String> handlerScan = Collections.emptyList();
 }
