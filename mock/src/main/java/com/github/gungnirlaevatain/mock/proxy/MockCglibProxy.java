@@ -37,9 +37,9 @@ public class MockCglibProxy implements MethodInterceptor {
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
         MockPoint mockPoint = method.getAnnotation(MockPoint.class);
         if (mockPoint != null) {
-            Class<?> handlerClass = mockPoint.hanlder();
             try {
-                Object bean = beanFactory.getBean(handlerClass);
+                Object bean = findMockHandler(mockPoint);
+                Class<?> handlerClass = bean.getClass();
                 String methodName = mockPoint.methodName();
                 if (StringUtils.isEmpty(methodName)) {
                     methodName = method.getName();
@@ -60,10 +60,21 @@ public class MockCglibProxy implements MethodInterceptor {
 
                 log.error("target class should has mock method or implement MockHandler");
             } catch (NoSuchBeanDefinitionException e) {
-                log.warn("can not found bean definition that class is [{}]", handlerClass);
+                log.warn("can not found bean definition that naem is [{}], class is [{}]",
+                        mockPoint.handlerName(), mockPoint.handler());
                 // 若没有声明对应的处理类则尝试基于外部配置文件的方式进行打桩操作
             }
         }
         return mockProxy.invoke(o, method, methodProxy, objects);
+    }
+
+    private Object findMockHandler(MockPoint mockPoint) {
+        String name = mockPoint.handlerName();
+        if (!StringUtils.isEmpty(name)) {
+            return beanFactory.getBean(name);
+        }
+        Class<?> handlerClass = mockPoint.handler();
+        return beanFactory.getBean(handlerClass);
+
     }
 }

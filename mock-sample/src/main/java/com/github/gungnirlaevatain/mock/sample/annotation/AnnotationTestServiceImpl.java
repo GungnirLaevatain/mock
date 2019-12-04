@@ -8,19 +8,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class AnnotationTestServiceImpl implements AnnotationTestService {
     @Override
-    @MockPoint(hanlder = MockHandlerBaseOnAnnotation.class)
+    @MockPoint(handler = MockHandlerBaseOnAnnotation.class)
     public int testInt(String name, Integer id) {
         return 0;
     }
 
     @Override
-    @MockPoint(hanlder = MockHandlerBaseOnInterface.class)
+    @MockPoint(handler = MockHandlerBaseOnInterface.class)
     public int testInt(Integer id) {
         return 0;
     }
 
     @Override
-    @MockPoint(hanlder = MockHandlerBaseOnInterface.class)
+    @MockPoint(handler = MockHandlerBaseOnInterface.class)
     public String testString(String name) {
         return null;
     }

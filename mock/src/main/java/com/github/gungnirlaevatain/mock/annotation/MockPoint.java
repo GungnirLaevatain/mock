@@ -1,5 +1,7 @@
 package com.github.gungnirlaevatain.mock.annotation;
 
+import com.github.gungnirlaevatain.mock.handler.MockHandler;
+
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -7,7 +9,9 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.METHOD)
 public @interface MockPoint {
-    Class<?> hanlder();
+    Class<?> handler() default MockHandler.class;
+
+    String handlerName() default "";
 
     String methodName() default "";
 }
