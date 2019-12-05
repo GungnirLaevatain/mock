@@ -1,5 +1,6 @@
 package com.github.gungnirlaevatain.mock.processor;
 
+import com.github.gungnirlaevatain.mock.annotation.MockAnnotationBeanNameGenerator;
 import com.github.gungnirlaevatain.mock.handler.MockHandler;
 import com.github.gungnirlaevatain.mock.property.EnvProperty;
 import com.github.gungnirlaevatain.mock.property.MockProperty;
@@ -9,7 +10,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
@@ -45,7 +45,7 @@ public class MockBeanDefinitionRegistryPostProcessor implements BeanDefinitionRe
             return;
         }
         ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(registry, false);
-        scanner.setBeanNameGenerator(new AnnotationBeanNameGenerator());
+        scanner.setBeanNameGenerator(new MockAnnotationBeanNameGenerator());
         scanner.addIncludeFilter(new AssignableTypeFilter(MockHandler.class));
         scanner.addIncludeFilter(new AnnotationTypeFilter(com.github.gungnirlaevatain.mock.annotation.MockHandler.class));
         scanner.scan(scanPackages.toArray(new String[0]));

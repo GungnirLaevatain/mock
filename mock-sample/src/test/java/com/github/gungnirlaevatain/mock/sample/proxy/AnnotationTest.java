@@ -1,6 +1,7 @@
 package com.github.gungnirlaevatain.mock.sample.proxy;
 
 import com.github.gungnirlaevatain.mock.sample.MockSampleApplication;
+import com.github.gungnirlaevatain.mock.sample.TestResult;
 import com.github.gungnirlaevatain.mock.sample.annotation.AnnotationTestService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MockSampleApplication.class)
@@ -37,4 +40,9 @@ public class AnnotationTest {
         Assert.assertEquals("1111", result);
     }
 
+    @Test
+    public void testTestResult() {
+        TestResult result = annotationTestService.testTestResult("4444", new Date());
+        Assert.assertEquals("4444", result.getA());
+    }
 }

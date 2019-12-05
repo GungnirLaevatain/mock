@@ -1,11 +1,6 @@
 package com.github.gungnirlaevatain.mock.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * The class Mock handler.
@@ -21,10 +16,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface MockHandler {
     /**
-     * Name.
+     * value.
+     * bean名称
      *
      * @return the string
      * @author GungnirLaevatain
      */
-    String name() default "";
+    String value() default "";
 }
