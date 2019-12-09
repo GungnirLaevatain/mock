@@ -38,7 +38,7 @@ public class MockCglibProxy implements MethodInterceptor {
         MockPoint mockPoint = method.getAnnotation(MockPoint.class);
         if (mockPoint != null) {
             try {
-                Object bean = findMockHandler(mockPoint);
+                Object bean = findMockHandler(mockPoint, method);
                 Class<?> handlerClass = bean.getClass();
                 String methodName = mockPoint.methodName();
                 if (StringUtils.isEmpty(methodName)) {
@@ -68,13 +68,17 @@ public class MockCglibProxy implements MethodInterceptor {
         return mockProxy.invoke(o, method, methodProxy, objects);
     }
 
-    private Object findMockHandler(MockPoint mockPoint) {
+    private Object findMockHandler(MockPoint mockPoint, Method method) {
         String name = mockPoint.handlerName();
         if (!StringUtils.isEmpty(name)) {
             return beanFactory.getBean(name);
         }
         Class<?> handlerClass = mockPoint.handler();
-        return beanFactory.getBean(handlerClass);
-
+        if (handlerClass != MockHandler.class) {
+            return beanFactory.getBean(handlerClass);
+        }
+        Class<?> returnType = method.getReturnType();
+        String defaultName = returnType.getSimpleName() + "MockHandler";
+        return beanFactory.getBean(defaultName);
     }
 }
