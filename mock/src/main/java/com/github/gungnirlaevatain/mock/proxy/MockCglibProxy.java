@@ -60,7 +60,7 @@ public class MockCglibProxy implements MethodInterceptor {
 
                 log.error("target class should has mock method or implement MockHandler");
             } catch (NoSuchBeanDefinitionException e) {
-                log.warn("can not found bean definition that naem is [{}], class is [{}]",
+                log.warn("can not found bean definition that name is [{}], class is [{}]",
                         mockPoint.handlerName(), mockPoint.handler());
                 // 若没有声明对应的处理类则尝试基于外部配置文件的方式进行打桩操作
             }
